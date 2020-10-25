@@ -29,7 +29,7 @@ class PID {
    * Calculate the total PID error.
    * @output The total PID error
    */
-  double TotalError(double p_value, double i_value, double d_value);
+  double TotalError();
 
  private:
   /**

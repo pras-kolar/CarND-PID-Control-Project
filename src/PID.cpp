@@ -17,38 +17,24 @@ void PID::Init(double Kp_, double Ki_, double Kd_) {
 	Ki = Ki_;
 	Kd = Kd_;
 
-	p_error = 0.0;
-	i_error = 0.0;
-	d_error = 0.0;
+	this->p_error = 0.0;
+	this->i_error = 0.0;
+	this->d_error = 0.0;
 }
 
-void PID::UpdateError(double setpoint, double pv) {
+void PID::UpdateError(double cte) {
   /**
    * TODO: Update PID errors based on cte.
    */
-  	double _dt;
-	double _max;
-	double _min;
-	double _pre_error=0.0;
-	double _integral=0.0;
-
-    double error = setpoint - pv;
-  
-    double p_value = Kp * error;
-    double integral += error * _dt;
-  
-    double i_value = Ki * integral;
-
-    double derivative = (error - _pre_error) / _dt;
-    double d_value = Kd *  derivative;
-    pre_error = error;
-    
-    TotalError(p_value, i_value, d_value);
+  d_error = cte - p_error;
+  p_error = cte;
+  i_error += cte;
 }
 
-double PID::TotalError(double p_value, double i_value, double d_value) {
+//double PID::TotalError(double p_value, double i_value, double d_value) {
+double PID::TotalError() {  
   /**
    * TODO: Calculate and return the total error
    */
-  return (p_value + i_value + d_value);  // TODO: Add your total error calc here!
+  return ((-Kp * p_error) + (-Ki * i_error) + (-Kd * d_error));  // TODO: Add your total error calc here!
 }
